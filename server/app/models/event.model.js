@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const Event = mongoose.model(
   "Event",
   new mongoose.Schema({
+    name: String,
     organizer: String,
     date: String,
     time: String,
@@ -11,18 +12,16 @@ const Event = mongoose.model(
     description: String,
     image: String,
     published: Boolean,
-    eventType: [
+    eventType:
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "EventType"
-        }
-    ],
-    author: [
+        },
+    author:
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
       }
-    ]
   },
   { timestamps: true },
   )

@@ -74,6 +74,31 @@ isModerator = (req, res, next) => {
   });
 };
 
+isUser = (req, res, next) => {
+  User.findById(req.userId).exec((err, user) => {
+    if (err) {
+      res.status(500).send({ message: err });
+      return;
+    }
+
+    Role.findById(user.role).exec((err, role) => {
+      if (err) {
+        res.status(500).send({ message: err });
+        return;
+      }
+
+          if (role.name === "user" || role.name === "moderator" || role.name === "admin") {
+            next();
+            return;
+          }
+
+        res.status(403).send({ message: "Require User Role!" });
+        return;
+      }
+    );
+  });
+};
+
 const authJwt = {
   verifyToken,
   isAdmin,
