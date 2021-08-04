@@ -20,11 +20,7 @@ exports.updateRoles = (req, res) => {
       res.status(500).send({ message: err });
       return;
     }
-  
-      // user.username = body.username;
-      // user.email = body.email;
-      // user.password = body.password;
-  
+    if (user){
       if (body.role) {
         Role.findOne({ name: req.body.role}, (err, role) => {
           if (err) {
@@ -32,30 +28,35 @@ exports.updateRoles = (req, res) => {
             return;
           }
 
-          user.role = role._id;
-            user
-            .save()
-            .then(() => {
-                return res.status(200).json({
-                    success: true,
-                    id: movie._id,
-                    message: 'User updated!',
-                })
-            })
-            .catch(error => {
-                return res.status(404).json({
-                    error,
-                    message: 'User not updated!',
-                })
+          if(role){
+            user.role = role._id;
+            user.save(err => {
+              if (err) {
+                res.status(500).send({ message: err });
+                return;
+              }
+
+              res.send({ message: "User was updated successfully!" });
+            });
+          } else { 
+            return res.status(400).json({
+              success: false,
+              error: 'You must provide a valid role',
             });
           }
-        );
+        });
       } else { 
         return res.status(400).json({
           success: false,
           error: 'You must provide a valid role',
         });
-      };
+      }
+    } else {
+      return res.status(400).json({
+        success: false,
+        error: 'You must provide a valid user email',
+      });
+    }
   });
 }
 

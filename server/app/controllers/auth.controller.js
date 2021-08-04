@@ -29,15 +29,19 @@ exports.signup = (req, res) => {
             return;
           }
 
-          user.role = role._id;
-          user.save(err => {
-            if (err) {
-              res.status(500).send({ message: err });
-              return;
-            }
-
-            res.send({ message: "User was registered successfully!" });
-          });
+          if (role){
+            user.role = role._id;
+            user.save(err => {
+              if (err) {
+                res.status(500).send({ message: err });
+                return;
+              }
+  
+              res.send({ message: "User was registered successfully yo!" });
+            });
+          } else {
+            res.send({ message: "User was registered without role!" });
+          }
         }
       );
     } else {

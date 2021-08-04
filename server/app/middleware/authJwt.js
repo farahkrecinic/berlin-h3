@@ -61,7 +61,7 @@ isModerator = (req, res, next) => {
         return;
       }
 
-          if (role.name === "moderator") {
+          if (role.name === "moderator" || role.name === "admin") {
             next();
             return;
           }
