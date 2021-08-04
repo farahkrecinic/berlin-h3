@@ -1,6 +1,6 @@
 //author: bezkoder
 //https://www.bezkoder.com/node-js-mongodb-auth-jwt/
-//just checking
+//just checking again
 
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config.js");
