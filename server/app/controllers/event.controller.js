@@ -77,46 +77,59 @@ exports.updateEvent = async (req, res) => {
                 message: 'Event not found!',
             })
         }
-        event.name = body.name;
-        event.organizer = body.organizer;
-        event.date = body.date;
-        event.time = body.time;
-        event.location = event.location;
-        event.googleLocation = body.googleLocation;
-        event.description = body.description;
-        event.image = body.image;
-        event.published = body.published;
-        event.author = body.author;
 
-        if (req.body.eventType) {
-            EventType.findOne({ name: req.body.eventType}, (err, eventType) => {
-                if (err) {
-                  res.status(500).send({ message: err });
-                  return;
-                }
-      
-                if (eventType){
-                  event.eventType = eventType._id;  
-                }
-              }
-            );
-          }
-
-        event
-            .save()
-            .then(() => {
-                return res.status(200).json({
-                    success: true,
-                    id: event._id,
-                    message: 'Event updated!',
-                })
-            })
-            .catch(error => {
-                return res.status(404).json({
-                    error,
-                    message: 'Event not updated!',
-                })
-            })
+        if(event){
+            event.name = body.name;
+            event.organizer = body.organizer;
+            event.date = body.date;
+            event.time = body.time;
+            event.location = body.location;
+            event.googleLocation = body.googleLocation;
+            event.description = body.description;
+            event.image = body.image;
+            event.published = body.published;
+            event.author = body.author;
+    
+            if (body.eventType) {
+                EventType.findOne({ name: body.eventType}, (err, eventType) => {
+                    if (err) {
+                      res.status(500).send({ message: err });
+                      return;
+                    }
+          
+                    if (eventType){
+                        event.eventType = eventType._id;
+                        event.save(err => {
+                            if (err) {
+                                res.status(500).send({ message: err });
+                                return;
+                            }
+                            res.send({ message: "Event was updated successfully!" });
+                        }); 
+                    } else {
+                        event.save(err => {
+                            if (err) {
+                            res.status(500).send({ message: err });
+                            return;
+                            }
+                
+                            res.send({ message: "Event was updated without eventType since eventType not found!" });
+                        }); 
+                    }
+                });
+            } else {
+                event.save(err => {
+                    if (err) {
+                    res.status(500).send({ message: err });
+                    return;
+                    }
+        
+                    res.send({ message: "Event was updated without eventType!" });
+                });
+            }
+        } else {
+            res.send({ message: "Event was not found!" });
+        }
     })
 }
 
