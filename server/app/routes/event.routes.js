@@ -12,5 +12,9 @@ module.exports = function(app) {
 
   app.post('/api/event', [authJwt.verifyToken], controller.createEvent);
   app.put('/api/event/:id', [authJwt.verifyToken], controller.updateEvent);
-
+  app.delete('/api/event/:id', [authJwt.verifyToken], controller.deleteEvent);
+  app.get('/api/event/:id', controller.getEventById);
+  app.get('/api/allevents/', [authJwt.verifyToken, authJwt.isModerator], controller.getEvents);
+  app.get('/api/publishedevents/', controller.getPublishedEvents);
+  app.get('/api/userevents/:id', [authJwt.verifyToken], controller.getEventsByAuthor);
 }

@@ -74,7 +74,7 @@ exports.updateEvent = async (req, res) => {
         if (err) {
             return res.status(404).json({
                 err,
-                message: 'Event not found!',
+                message: 'Event was not found yo!',
             })
         }
 
@@ -133,47 +133,104 @@ exports.updateEvent = async (req, res) => {
     })
 }
 
-// deleteMovie = async (req, res) => {
-//     await Movie.findOneAndDelete({ _id: req.params.id }, (err, movie) => {
-//         if (err) {
-//             return res.status(400).json({ success: false, error: err })
-//         }
+exports.deleteEvent = async (req, res) => {
+    await Event.findOneAndDelete({ _id: req.params.id }, (err, event) => {
+        if (err) {
+            return res.status(400).json({ success: false, error: err })
+        }
 
-//         if (!movie) {
-//             return res
-//                 .status(404)
-//                 .json({ success: false, error: `Movie not found` })
-//         }
+        if (!event) {
+            return res
+                .status(404)
+                .json({ success: false, error: `Event not found` })
+        }
 
-//         return res.status(200).json({ success: true, data: movie })
-//     }).catch(err => console.log(err))
-// }
+        return res.status(200).json({ success: true, data: event })
+    }).catch(err => console.log(err))
+}
 
-// getMovieById = async (req, res) => {
-//     await Movie.findOne({ _id: req.params.id }, (err, movie) => {
-//         if (err) {
-//             return res.status(400).json({ success: false, error: err })
-//         }
+exports.getEventById = (req, res) => {
+    Event.findOne({ _id: req.params.id })
+        .populate("author", "-__v")
+        .populate("eventType", "-__v")
+        .exec((err, event) => {
+        if (err) {
+            return res.status(400).json({ success: false, error: err });
+        }
 
-//         if (!movie) {
-//             return res
-//                 .status(404)
-//                 .json({ success: false, error: `Movie not found` })
-//         }
-//         return res.status(200).json({ success: true, data: movie })
-//     }).catch(err => console.log(err))
-// }
+        if (!event) {
+            return res
+                .status(404)
+                .json({ success: false, error: `Event not found` })
+        } else {
+            res.status(200).send({
+                name: event.name,
+                organizer: event.organizer,
+                date: event.date,
+                time: event.time,
+                location: event.location,
+                googleLocation: event.googleLocation,
+                description: event.description,
+                image: event.image,
+                published: event.published,
+                eventType: event.eventType.name,
+                eventTypeImage: event.eventType.image,
+                author: event.author.username
+            });
+        }
+    }) //.catch(err => console.log(err));
+}
 
-// getMovies = async (req, res) => {
-//     await Movie.find({}, (err, movies) => {
-//         if (err) {
-//             return res.status(400).json({ success: false, error: err })
-//         }
-//         if (!movies.length) {
-//             return res
-//                 .status(404)
-//                 .json({ success: false, error: `Movie not found` })
-//         }
-//         return res.status(200).json({ success: true, data: movies })
-//     }).catch(err => console.log(err))
-// }
+exports.getEvents = (req, res) => {
+    Event.find({})
+    .populate("author", "-__v")
+    .populate("eventType", "-__v")
+    .exec((err, events) => {
+        if (err) {
+            return res.status(400).json({ success: false, error: err })
+        }
+        if (!events.length) {
+            return res
+                .status(404)
+                .json({ success: false, error: `Event not found` })
+            } else {
+                res.status(200).json({ success: true, data: events })
+            }
+    })//.catch(err => console.log(err))
+}
+
+exports.getPublishedEvents = (req, res) => {
+    Event.find({published: true})
+        .populate("author", "-__v")
+        .populate("eventType", "-__v")
+        .exec((err, events) => {
+        if (err) {
+            return res.status(400).json({ success: false, error: err })
+        }
+        if (!events.length) {
+            return res
+                .status(404)
+                .json({ success: false, error: `Event not found` })
+        } else {
+            res.status(200).json({ success: true, data: events })
+        }
+    })//.catch(err => console.log(err))
+}
+
+exports.getEventsByAuthor = (req, res) => {
+    Event.find({author: req.params.id})
+        .populate("author", "-__v")
+        .populate("eventType", "-__v")
+        .exec((err, events) => {
+        if (err) {
+            return res.status(400).json({ success: false, error: err })
+        }
+        if (!events.length) {
+            return res
+                .status(404)
+                .json({ success: false, error: `Event not found` })
+            } else {
+                res.status(200).json({ success: true, data: events })
+            }
+        })//.catch(err => console.log(err))
+}
