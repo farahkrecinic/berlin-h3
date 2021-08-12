@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import UserService from "../services/user.service";
+import EventsList from "./eventslist.component";
 
 export default class Home extends Component {
   constructor(props) {
@@ -34,6 +35,7 @@ export default class Home extends Component {
       <div className="container">
         <header className="jumbotron">
           <h3>{this.state.content}</h3>
+          <EventsList />
         </header>
       </div>
     );
