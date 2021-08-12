@@ -37,15 +37,17 @@ export default class EventsList extends Component {
 
     render() {
         const { events, isLoading } = this.state;
-        console.log('TCL: MoviesList -> render -> events', events);
+        var CurrentDate = new Date();
 
+        events.map(c => c.date = new Date(c.date)).sort((a,b)=>a.date-b.date);
+        
         return (
             <ListWrapper>
                 {
-                    events.map(({id, name, organizer, date, time, description}) => (
-                        <div className='mapList' key={id}><h1>{name}</h1>
+                    events.filter(s => s.date >= CurrentDate).map(({_id, name, organizer, date, time, description}) => (
+                        <div className='mapList' key={_id}><h1>{name}</h1>
                         <p>{organizer}</p>
-                        <p>{date} : {time}</p>
+                        <p>{date.toLocaleDateString()} at {time}</p>
                         <p>{description}</p>
                         </div>
                     ))
@@ -54,3 +56,10 @@ export default class EventsList extends Component {
         );
     }
 }
+
+// .toLocaleDateString()
+// .filter(function(s){
+//     var dateS = new Date(s.date);
+//     var CurrentDate = new Date();
+//     return dateS > CurrentDate;
+// })
