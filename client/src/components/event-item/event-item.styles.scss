@@ -1,0 +1,46 @@
+.event-item {
+    min-width: 30%;
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 7.5px 15px;
+  
+    &:first-child {
+      margin-right: 7.5px;
+    }
+  
+    &:last-child {
+      margin-left: 7.5px;
+    }
+  
+    .content {
+      padding: 0 0px;
+      display: flex;
+      flex-direction: column;
+  
+      .title {
+        font-weight: bold;
+        margin-bottom: 6px;
+        font-size: 22px;
+        color: #16959e;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .date{
+        align-items: left;
+        justify-content: left;
+        font-size: 24px;
+      }
+  
+      .genInfo {
+        font-weight: normal;
+        font-size: 14px;
+      }
+      .short-description {
+        font-weight: normal;
+        font-size: 14px;
+      }
+    }
+}
