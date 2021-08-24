@@ -49,8 +49,8 @@ class EventsList extends React.Component {
                     events.filter(s => s.date >= CurrentDate)
                     .sort((a,b)=>a.date-b.date)
                     .filter((event, idx) => idx < 3)
-                    .map(({id, date, ...otherSectionProps}) => (
-                        <EventItem key={id} id={id} date={(days[date.getDay()])+'. '+date.getDate()+'. '+(months[date.getMonth()])} {...otherSectionProps} />
+                    .map(({_id, date, ...otherSectionProps}) => (
+                        <EventItem key={_id} id={_id} date={(days[date.getDay()])+'. '+date.getDate()+'. '+(months[date.getMonth()])} {...otherSectionProps} />
                     ))
                 }
             </div>  
