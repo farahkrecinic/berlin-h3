@@ -13,7 +13,7 @@ class EventsList extends React.Component {
                 organizer: 'F7',
                 date: '2021-08-28',
                 time: '2:45pm',
-                location: 'S Südende',
+                local: 'S Südende',
                 description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus dui metus, ultricies vel rutrum et, tincidunt quis elit. Quisque ut libero eu erat condimentum volutpat. Proin ante massa, elementum in velit id, pretium semper massa. Vivamus non eros nec ante dapibus feugiat. Morbi semper sapien in fermentum tempus. Nam mattis purus diam, eget lobortis augue convallis vitae. Curabitur efficitur tincidunt luctus. In non varius dolor, eget congue quam. Aenean gravida ut dui a euismod. Aenean quam dui, tempus sit amet suscipit ut, maximus sit amet urna.',
                 id: 1
             },
@@ -22,7 +22,7 @@ class EventsList extends React.Component {
                 organizer: 'Runs From Sex',
                 date: '2021-09-05',
                 time: '2:45pm',
-                location: 'S Grünau',
+                local: 'S Grünau',
                 description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus dui metus, ultricies vel rutrum et, tincidunt quis elit. Quisque ut libero eu erat condimentum volutpat. Proin ante massa, elementum in velit id, pretium semper massa. Vivamus non eros nec ante dapibus feugiat. Morbi semper sapien in fermentum tempus. Nam mattis purus diam, eget lobortis augue convallis vitae. Curabitur efficitur tincidunt luctus. In non varius dolor, eget congue quam. Aenean gravida ut dui a euismod. Aenean quam dui, tempus sit amet suscipit ut, maximus sit amet urna.',
                 id: 2
             },
@@ -31,7 +31,7 @@ class EventsList extends React.Component {
                 organizer: 'Ring Piece',
                 date: '2021-08-31',
                 time: '7pm',
-                location: 'S Südkreuz',
+                local: 'S Südkreuz',
                 description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus dui metus, ultricies vel rutrum et, tincidunt quis elit. Quisque ut libero eu erat condimentum volutpat. Proin ante massa, elementum in velit id, pretium semper massa. Vivamus non eros nec ante dapibus feugiat. Morbi semper sapien in fermentum tempus. Nam mattis purus diam, eget lobortis augue convallis vitae. Curabitur efficitur tincidunt luctus. In non varius dolor, eget congue quam. Aenean gravida ut dui a euismod. Aenean quam dui, tempus sit amet suscipit ut, maximus sit amet urna.',
                 id: 3
             },
@@ -40,7 +40,7 @@ class EventsList extends React.Component {
                 organizer: 'Cyber Donkey Sex',
                 date: '2021-09-12',
                 time: '2:45pm',
-                location: 'S Hauptbahnhof',
+                local: 'S Hauptbahnhof',
                 description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus dui metus, ultricies vel rutrum et, tincidunt quis elit. Quisque ut libero eu erat condimentum volutpat. Proin ante massa, elementum in velit id, pretium semper massa. Vivamus non eros nec ante dapibus feugiat. Morbi semper sapien in fermentum tempus. Nam mattis purus diam, eget lobortis augue convallis vitae. Curabitur efficitur tincidunt luctus. In non varius dolor, eget congue quam. Aenean gravida ut dui a euismod. Aenean quam dui, tempus sit amet suscipit ut, maximus sit amet urna.',
                 id: 4
             },
@@ -49,7 +49,7 @@ class EventsList extends React.Component {
                 organizer: 'Symphomaniac',
                 date: '2020-09-12',
                 time: '2:45pm',
-                location: 'S Hauptbahnhof',
+                local: 'S Hauptbahnhof',
                 description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus dui metus, ultricies vel rutrum et, tincidunt quis elit. Quisque ut libero eu erat condimentum volutpat. Proin ante massa, elementum in velit id, pretium semper massa. Vivamus non eros nec ante dapibus feugiat. Morbi semper sapien in fermentum tempus. Nam mattis purus diam, eget lobortis augue convallis vitae. Curabitur efficitur tincidunt luctus. In non varius dolor, eget congue quam. Aenean gravida ut dui a euismod. Aenean quam dui, tempus sit amet suscipit ut, maximus sit amet urna.',
                 id: 5
             }]
@@ -60,6 +60,7 @@ class EventsList extends React.Component {
         const { events } = this.state;
         var CurrentDate = new Date();
         const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
         events.map(c => c.date = new Date(c.date));
 
@@ -69,7 +70,7 @@ class EventsList extends React.Component {
                     events.filter(s => s.date >= CurrentDate)
                     .sort((a,b)=>a.date-b.date)
                     .map(({id, date, ...otherSectionProps}) => (
-                        <EventItem key={id} date={date.getDate()+'. '+(months[date.getMonth()])} {...otherSectionProps} />
+                        <EventItem key={id} id={id} date={(days[date.getDay()])+'. '+date.getDate()+'. '+(months[date.getMonth()])} {...otherSectionProps} />
                     ))
                 }
             </div>  
