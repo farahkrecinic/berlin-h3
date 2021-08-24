@@ -1,4 +1,5 @@
 import React from 'react';
+import EventService from '../../services/event.service';
 
 import EventItem from '../event-item/event-item.component';
 import './eventslist.styles.scss';
@@ -8,52 +9,30 @@ class EventsList extends React.Component {
         super();
 
         this.state = {
-            events: [{
-                name: 'Run, Baby, Run',
-                organizer: 'F7',
-                date: '2021-08-28',
-                time: '2:45pm',
-                local: 'S Südende',
-                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus dui metus, ultricies vel rutrum et, tincidunt quis elit. Quisque ut libero eu erat condimentum volutpat. Proin ante massa, elementum in velit id, pretium semper massa. Vivamus non eros nec ante dapibus feugiat. Morbi semper sapien in fermentum tempus. Nam mattis purus diam, eget lobortis augue convallis vitae. Curabitur efficitur tincidunt luctus. In non varius dolor, eget congue quam. Aenean gravida ut dui a euismod. Aenean quam dui, tempus sit amet suscipit ut, maximus sit amet urna.',
-                id: 1
+            events: [],
+            isLoading: false
+        };
+    }
+
+    componentDidMount() {
+        this.setState({ isLoading: true });
+
+        EventService.getAllPublishedEvents().then(
+            events => {
+                this.setState({
+                    events: events.data,
+                    isLoading: false
+                });
             },
-            {
-                name: 'Did Someone say Run',
-                organizer: 'Runs From Sex',
-                date: '2021-09-05',
-                time: '2:45pm',
-                local: 'S Grünau',
-                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus dui metus, ultricies vel rutrum et, tincidunt quis elit. Quisque ut libero eu erat condimentum volutpat. Proin ante massa, elementum in velit id, pretium semper massa. Vivamus non eros nec ante dapibus feugiat. Morbi semper sapien in fermentum tempus. Nam mattis purus diam, eget lobortis augue convallis vitae. Curabitur efficitur tincidunt luctus. In non varius dolor, eget congue quam. Aenean gravida ut dui a euismod. Aenean quam dui, tempus sit amet suscipit ut, maximus sit amet urna.',
-                id: 2
-            },
-            {
-                name: 'Full Moon, Run',
-                organizer: 'Ring Piece',
-                date: '2021-08-31',
-                time: '7pm',
-                local: 'S Südkreuz',
-                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus dui metus, ultricies vel rutrum et, tincidunt quis elit. Quisque ut libero eu erat condimentum volutpat. Proin ante massa, elementum in velit id, pretium semper massa. Vivamus non eros nec ante dapibus feugiat. Morbi semper sapien in fermentum tempus. Nam mattis purus diam, eget lobortis augue convallis vitae. Curabitur efficitur tincidunt luctus. In non varius dolor, eget congue quam. Aenean gravida ut dui a euismod. Aenean quam dui, tempus sit amet suscipit ut, maximus sit amet urna.',
-                id: 3
-            },
-            {
-                name: 'Just another Run',
-                organizer: 'Cyber Donkey Sex',
-                date: '2021-09-12',
-                time: '2:45pm',
-                local: 'S Hauptbahnhof',
-                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus dui metus, ultricies vel rutrum et, tincidunt quis elit. Quisque ut libero eu erat condimentum volutpat. Proin ante massa, elementum in velit id, pretium semper massa. Vivamus non eros nec ante dapibus feugiat. Morbi semper sapien in fermentum tempus. Nam mattis purus diam, eget lobortis augue convallis vitae. Curabitur efficitur tincidunt luctus. In non varius dolor, eget congue quam. Aenean gravida ut dui a euismod. Aenean quam dui, tempus sit amet suscipit ut, maximus sit amet urna.',
-                id: 4
-            },
-            {
-                name: 'Past Run',
-                organizer: 'Symphomaniac',
-                date: '2020-09-12',
-                time: '2:45pm',
-                local: 'S Hauptbahnhof',
-                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus dui metus, ultricies vel rutrum et, tincidunt quis elit. Quisque ut libero eu erat condimentum volutpat. Proin ante massa, elementum in velit id, pretium semper massa. Vivamus non eros nec ante dapibus feugiat. Morbi semper sapien in fermentum tempus. Nam mattis purus diam, eget lobortis augue convallis vitae. Curabitur efficitur tincidunt luctus. In non varius dolor, eget congue quam. Aenean gravida ut dui a euismod. Aenean quam dui, tempus sit amet suscipit ut, maximus sit amet urna.',
-                id: 5
-            }]
-        }
+            error => {
+                this.setState({
+                  content:
+                    (error.response && error.response.data) ||
+                    error.message ||
+                    error.toString()
+                });
+            }
+        );
     }
 
     render () {
@@ -69,6 +48,7 @@ class EventsList extends React.Component {
                 {
                     events.filter(s => s.date >= CurrentDate)
                     .sort((a,b)=>a.date-b.date)
+                    .filter((event, idx) => idx < 3)
                     .map(({id, date, ...otherSectionProps}) => (
                         <EventItem key={id} id={id} date={(days[date.getDay()])+'. '+date.getDate()+'. '+(months[date.getMonth()])} {...otherSectionProps} />
                     ))
