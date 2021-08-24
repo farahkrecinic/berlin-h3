@@ -18,6 +18,13 @@ class EventService {
       return response.data;
     });
   }
+  getEvent(eventId) {
+    return axios
+    .get(API_URL + "event/" + eventId)
+    .then((response) => {
+      return response.data;
+    });
+  }
 }
 
 export default new EventService();
