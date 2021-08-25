@@ -5,7 +5,7 @@ const Event = mongoose.model(
   new mongoose.Schema({
     name: String,
     organizer: String,
-    date: String,
+    date: Date,
     time: String,
     location: String,
     googleLocation: String,

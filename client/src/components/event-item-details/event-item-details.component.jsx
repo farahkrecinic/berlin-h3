@@ -20,7 +20,8 @@ const EventItemDetails = ({currentEvent: {name, date, time, organizer, location,
             <span className='genInfo'><strong>{eventType}</strong></span>
             <span className='genInfo'>{description}</span>
             <span className='genInfo'>{googleLocation}</span>
-            <span className='author'>Person to blame if this info is wrong: NOT {author}</span>
+            <span className='author'>Person to blame if this info is wrong:
+            <br />NOT {author}</span>
         </div>
         </div>
 );
