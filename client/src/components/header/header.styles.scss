@@ -3,14 +3,15 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    background-color: black;
     margin-bottom: 25px;
-    border-bottom: 2px solid #16959e;
+    border-bottom: 2px solid #8cd0e1ff;
   
     .logo-container {
       height: 100%;
       width: 70px;
       padding: 0px;
-      margin-bottom: 10px;
+      margin: 5px;
     }
   
     .options {
@@ -22,6 +23,7 @@
   
       .option {
         padding: 10px 15px;
+        color: white;
       }
     }
   }

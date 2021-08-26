@@ -1,6 +1,8 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 
+import CustomButton from '../custom-button/custom-button.component';
+
 import './event-item.styles.scss';
 
 
@@ -14,7 +16,7 @@ const EventItem = ({id, name, organizer, date, time, local, description, history
             <span className='genInfo'><strong>Where: </strong>{local}</span>
             <span className='genInfo'><strong>WH-Hare(s): </strong>{organizer}</span>
             <span className='short-description'>{description.substring(0, 75)}...</span>
-            <button className='moreButton' onClick={() => history.push(`${match.url}event/${id}`)}> ON-ON </button>
+            <CustomButton type='button' isOnOn onClick={() => history.push(`${match.url}event/${id}`)}> ON-ON </CustomButton>
         </div>
     </div>
 );

@@ -12,6 +12,7 @@ const Header = () => (
         <div className='options'>
             <Link className='option' to='/event/6124cd74e0ce610d294b60cd'>Run, Baby, Run</Link>
             <Link className='option' to='/event/6115068a805598666f2fa856'>Run this coming Sunday</Link>
+            <Link className='option' to='/signin'>Login</Link>
         </div>
   </div>
 );
