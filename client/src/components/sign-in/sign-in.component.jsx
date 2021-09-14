@@ -50,9 +50,9 @@ class SignIn extends React.Component {
     render() {
         const { isLoggedIn, message } = this.props;
 
-        // if (isLoggedIn) {
-        //     return <Redirect to="/profile" />;
-        // }
+         if (isLoggedIn) {
+             return <Redirect to="/profile" />;
+         }
 
         return (
             <div className='sign-in'>
@@ -62,6 +62,13 @@ class SignIn extends React.Component {
                     <FormInput name='username' type='username' label='hash handle' handleChange={this.handleChange} value={this.state.username} required />
                     <FormInput name='password' type='password' label='password' handleChange={this.handleChange} value={this.state.password} required />
                     <CustomButton type='submit'>Sign in</CustomButton>
+                    {message && (
+              <div className="form-group">
+                <div className="alert alert-danger" role="alert">
+                  {message}
+                </div>
+              </div>
+            )}
                 </form>
             </div>
         )
